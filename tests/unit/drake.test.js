@@ -1,21 +1,22 @@
-const Dragon = require('../../lib/models/dragon');
+const Drake = require('../../lib/models/drake');
 const {assert} = require('chai');
-describe('Dragon model', () => {
+describe('Drake model', () => {
     it('validates with required fields', () =>{
-        const dragon = new Dragon({
+        const drake = new Drake({
             name: 'Drogo',
             color: 'red',
+            legs: 2,
             horde: [
                 {name: 'gold', weight: 100000000},
                 {name: 'artifacts', weight: 66}
             ]
         });
-        return dragon.validate();
+        return drake.validate();
     });
     it('fails validation when required fields are missing', () => {
-        const dragon = new Dragon();
+        const drake = new Drake();
         
-        return dragon.validate()
+        return drake.validate()
             .then(
                 () => { throw new Error('Expected validation error'); },
                 ({ errors }) => {
@@ -28,12 +29,12 @@ describe('Dragon model', () => {
     });
 
     it('color should be of enum type', () => {
-        const dragon = new Dragon({
+        const drake = new Drake({
             name: 'foo',
             color: 'brown'
         });
         
-        return dragon.validate()
+        return drake.validate()
             .then(
                 () => { throw new Error('Expected validation error'); },
                 ({ errors }) => {

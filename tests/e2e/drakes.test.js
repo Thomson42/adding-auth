@@ -13,12 +13,13 @@ const app = require('../../lib/app');
 
 const request = chai.request(app);
 
-describe('dragons REST api',()=>{
+describe('drakes REST api',()=>{
     before(() => connection.dropDatabase());
 
     const drogo = {
         name: 'Smaug',
         color: 'red',
+        legs: 2,
         horde: [
             {name: 'gold', weight: 100000000},
             {name: 'artifacts', weight: 66}
@@ -26,49 +27,52 @@ describe('dragons REST api',()=>{
     };
     const smaug = {
         name: 'Smogg',
-        color: 'red'
+        color: 'red',
+        legs: 2
     };
     
     const scatha = {
         name: 'Scatha',
-        color: 'white'
+        color: 'white',
+        legs: 2
 
     };
     const glaurung = {
         name: 'Glaurung',
-        color: 'black'
+        color: 'black',
+        legs: 2,
     };
-    function saveDragon(dragon) {
-        return request.post('/dragons')
-            .send(dragon)
+    function saveDrake(drake) {
+        return request.post('/drakes')
+            .send(drake)
             .then(({body}) => {
-                dragon._id = body._id;
-                dragon.__v = body.__v;
+                drake._id = body._id;
+                drake.__v = body.__v;
                 return body;
             });
 
     }
-    it('saves a dragon', () => {
-        return saveDragon(smaug)
-            .then(savedDragon => {
-                assert.isOk(savedDragon._id);
-                assert.equal(savedDragon.name, smaug.name);
-                assert.equal(savedDragon.color, smaug.color);
+    it('saves a drake', () => {
+        return saveDrake(smaug)
+            .then(savedDrake => {
+                assert.isOk(savedDrake._id);
+                assert.equal(savedDrake.name, smaug.name);
+                assert.equal(savedDrake.color, smaug.color);
             });
     });
 
-    it('GETs dragon if it exists', () => {
+    it('GETs drake if it exists', () => {
         return request
-            .get(`/dragons/${smaug._id}`)
+            .get(`/drakes/${smaug._id}`)
             .then(res => res.body)
-            .then(dragon => {
-                assert.equal(dragon.name, smaug.name);
-                assert.equal(dragon.color, smaug.color);
+            .then(drake => {
+                assert.equal(drake.name, smaug.name);
+                assert.equal(drake.color, smaug.color);
             });
     });
 
-    it('returns 404 if dragon does not exist', () => {
-        return request.get('/dragons/58ff9f496aafd447254c29b5').then(
+    it('returns 404 if drake does not exist', () => {
+        return request.get('/drakes/58ff9f496aafd447254c29b5').then(
             () => {
                 //resolve
                 throw new Error('successful status code not expected');
@@ -81,19 +85,19 @@ describe('dragons REST api',()=>{
         );
     });
 
-    it('GET all dragons', () => {
+    it('GET all drakes', () => {
         return Promise.all([
-            saveDragon(scatha),
-            saveDragon(glaurung),
+            saveDrake(scatha),
+            saveDrake(glaurung),
         ])
-            .then(() => request.get('/dragons'))
+            .then(() => request.get('/drakes'))
             .then(res => {
-                const dragons = res.body;
-                assert.deepEqual(dragons, [smaug, scatha, glaurung]);
+                const drakes = res.body;
+                assert.deepEqual(drakes, [smaug, scatha, glaurung]);
             });
     });
-    it('rewrites dragon data by id', ()=>{
-        return request.put(`/dragons/${smaug._id}`)
+    it('rewrites drake data by id', ()=>{
+        return request.put(`/drakes/${smaug._id}`)
             .send(drogo)
             .then(res => {
                 assert.isOk(res.body._id);
@@ -101,14 +105,14 @@ describe('dragons REST api',()=>{
                 assert.equal(res.body.color,drogo.color);
             });
     });
-    it('deletes dragon by id', () =>{
-        return request.delete(`/dragons/${scatha._id}`)
+    it('deletes drake by id', () =>{
+        return request.delete(`/drakes/${scatha._id}`)
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), { removed: true });
             });
     });
-    it('fails to delete dragon by id', () =>{
-        return request.delete(`/dragons/${scatha._id}`)
+    it('fails to delete drake by id', () =>{
+        return request.delete(`/drakes/${scatha._id}`)
             .then(res => {
                 assert.deepEqual(JSON.parse(res.text), { removed: false });
             });
