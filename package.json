@@ -1,0 +1,36 @@
+{
+  "name": "adding-auth",
+  "version": "1.0.0",
+  "description": "My first attempt at adding basic security featurs with json tokens ",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha tests --recursive",
+    "test:unit": "mocha tests/unit",
+    "dev:unit": "nodemon --exec 'npm run test:unit'",
+    "test:e2e": "mocha tests/e2e",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cfpdx-401JS-summer-2017/adding-auth.git"
+  },
+  "author": "Christopher Thomson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cfpdx-401JS-summer-2017/adding-auth/issues"
+  },
+  "homepage": "https://github.com/cfpdx-401JS-summer-2017/adding-auth#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.4"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.3.0",
+    "mocha": "^3.4.2",
+    "nodemon": "^1.11.0",
+    "morgan": "^1.8.2"
+  }
+}
